@@ -2,11 +2,9 @@
   "name": "cckit/cckit",
   "type": "library",
   "description": "CCKit, pasarela entre php y boostrap",
-  "keywords": [
-    "framework"
-  ],
+  "keywords": ["templating"],
   "homepage": "https://www.yomyer.com",
-  "license": "MIT",
+  "license": "GPL-3.0+",
   "authors": [
     {
       "name": "Sergio Caballero",
@@ -31,7 +29,7 @@
   },
   "autoload": {
     "psr-4": {
-      "CCKit\\": "lib/"
+      "CCKit\\": "src/"
     }
   }
 }
