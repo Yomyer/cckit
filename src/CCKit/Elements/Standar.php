@@ -17,6 +17,11 @@ class Standar extends Rendered
     private $appearances;
 
     /**
+     * @var string
+     */
+    private $title = null;
+
+    /**
      * @param Appearances $appearances
      * @return $this
      */
@@ -33,6 +38,25 @@ class Standar extends Rendered
     public function getAppearances()
     {
         return $this->appearances;
+    }
+
+    /**
+     * @param string $title
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**
@@ -75,21 +99,15 @@ class Standar extends Rendered
     /**
      *
      */
-    public function onLoad()
-    {
-        foreach($this->getAppearances() as $appearance){
-            $appearance->execute($this);
-        }
-    }
-
-    /**
-     *
-     */
     public function render()
     {
+        if($this->getTitle())
+            $this->addAttribute('title', $this->getTitle());
+
         foreach($this->getAppearances()->getAll() as $appearance){
             $appearance->execute($this);
         }
+
         return parent::render();
     }
 }

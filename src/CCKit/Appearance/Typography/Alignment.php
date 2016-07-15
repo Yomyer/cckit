@@ -13,12 +13,38 @@ class Alignment extends Appearance implements AppearanceInterface
 {
 
     /**
-     * @var string
+     * @var string You can use [left(default)|center|right|justify|nowrap]
      */
     private $alignment = "left";
 
     /**
+     * @var string
+     */
+    const LEFT = "left";
+
+    /**
+     * @var string
+     */
+    const RIGHT = "right";
+
+    /**
+     * @var string
+     */
+    const CENTER = "center";
+
+    /**
+     * @var string
+     */
+    const JUSTIFY = "justify";
+
+    /**
+     * @var string
+     */
+    const NOWRAP = "nowrap";
+
+    /**
      * @param string $alignment
+     * You can use [left(default)|center|right|justify|nowrap]
      * @return $this
      */
     public function setAlignment($alignment)
@@ -41,10 +67,12 @@ class Alignment extends Appearance implements AppearanceInterface
      */
     public function execute(Rendered $object)
     {
-        $object->addClass('text-'.$this->getAlignment());
+        if($this->getAlignment())
+            $object->addClass('text-'.$this->getAlignment());
     }
 
     /**
+     * You can use [left(default)|center|right|justify|nowrap]
      * @param string $alignment
      * @return $this
      */

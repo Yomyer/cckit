@@ -276,4 +276,23 @@ abstract class Rendered
 
         return $this;
     }
+
+    /**
+     * @param string $glue
+     * @return $this
+     */
+    public function setGlue($glue = "\n")
+    {
+        $this->getContent()->setGlue($glue);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function copy()
+    {
+        return unserialize(serialize($this));
+    }
 }

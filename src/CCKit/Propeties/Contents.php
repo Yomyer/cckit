@@ -81,4 +81,15 @@ class Contents extends Iterator
 
         return $this;
     }
+
+    /**
+     * @param string $glue
+     * @return $this
+     */
+    public function setGlue($glue = "\n")
+    {
+        $this->glue = $glue;
+
+        return $this;
+    }
 }

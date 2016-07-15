@@ -12,6 +12,11 @@ abstract class Appearance
     use Create;
 
     /**
+     * @var string
+     */
+    const NONE = null;
+
+    /**
      *
      */
     public function __construct()
