@@ -3,6 +3,7 @@
 namespace CCKit\Utils\Iterator;
 
 use CCKit\Utils\Traits\Create;
+use CCKit\Propeties\Group;
 
 /**
  *
@@ -219,5 +220,91 @@ abstract class Iterator implements \IteratorAggregate, \Countable
     public function has($name)
     {
         return isset($this->data[$name]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function first()
+    {
+        return current($this->data);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function last()
+    {
+        return end($this->data);
+    }
+
+    /**
+     * @param int $index
+     * @return $this
+     */
+    public function eq($index)
+    {
+        if($index < 0)
+            $index = $this->count() + $index;
+
+        return $this->get($index);
+    }
+
+    /**
+     * @param callable $function
+     * @return $this
+     */
+    public function each(callable $function)
+    {
+        foreach($this as $key => $item)
+            call_user_func_array($function, [$key, $item]);
+
+        return $this;
+    }
+
+    /**
+     * @param int $index
+     * @return Group
+     */
+    public function gt($index)
+    {
+        return Group::create(array_slice($this->toArray(), $index+1));
+    }
+
+    /**
+     * @param int $index
+     * @return Group
+     */
+    public function lt($index)
+    {
+        return Group::create(array_slice($this->toArray(), 0, $index));
+    }
+
+    /**
+     * @return Group
+     */
+    public function odd()
+    {
+        $group = Group::create();
+
+        foreach($this->toArray() as $index => $item)
+            if($index & 1)
+                $group->append($item);
+
+        return $group;
+    }
+
+    /**
+     * @return Group
+     */
+    public function even()
+    {
+        $group = Group::create();
+
+        foreach($this->toArray() as $index => $item)
+            if(!($index & 1))
+                $group->append($item);
+
+        return $group;
     }
 }

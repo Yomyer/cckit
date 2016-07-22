@@ -57,6 +57,11 @@ trait Render
     private $debug;
 
     /**
+     * @var bool
+     */
+    private $display = true;
+
+    /**
      *
      */
     public function __construct()
@@ -194,6 +199,25 @@ trait Render
     }
 
     /**
+     * @param bool $display
+     * @return $this
+     */
+    public function setDisplay($display)
+    {
+        $this->display = $display;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDisplay()
+    {
+        return $this->display;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
@@ -210,7 +234,10 @@ trait Render
 
         $this->onRender();
 
-        return $this->getTwig()->render($this->getTemplate(), $this->getVariables()->toArray());
+        if($this->isDisplay())
+            return $this->getTwig()->render($this->getTemplate(), $this->getVariables()->toArray());
+
+        return "";
     }
 
     /**

@@ -7,7 +7,7 @@
     {% block javascripts_head %}{{ javascripts.inhead()|raw }}{% endblock %}
     <link rel="icon" type="image/x-icon" href="" />
 </head>
-<body>
+<body {{ attributes|raw }}>
 {% block body %} {{ content|raw }}{% endblock %}
 {% block javascripts_footer %}{{ javascripts.infooter()|raw }}{% endblock %}
 </body>

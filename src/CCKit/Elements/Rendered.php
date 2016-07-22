@@ -6,6 +6,8 @@ use CCKit\Propeties\Attributes;
 use CCKit\Propeties\Contents;
 use CCKit\Utils\Traits\Create;
 use CCKit\Utils\Traits\Render;
+use CCKit\Propeties\Group;
+use CCKit\Utils\Find;
 
 /**
  *
@@ -32,6 +34,16 @@ abstract class Rendered
      * @var int
      */
     private $weight;
+
+    /**
+     * @var bool
+     */
+    private $hidden = false;
+
+    /**
+     * @var Rendered
+     */
+    private $parent = null;
 
     /**
      * @param Attributes $attributes
@@ -91,13 +103,51 @@ abstract class Rendered
     }
 
     /**
+     * @param bool $hidden
+     * @return $this
+     */
+    public function setHidden($hidden)
+    {
+        $this->hidden = $hidden;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * @param Rendered $parent
+     * @return $this
+     */
+    public function setParent(Rendered $parent)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Rendered
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
      * @param mixed $content
      * @return $this
      */
     public function __construct($content = null)
     {
         $this->init();
-        $contents = Contents::create();
+        $contents = Contents::create()->setElement($this);
         if($content)
             $contents->setContents(is_array($content) ? $content : array($content));
 
@@ -147,6 +197,8 @@ abstract class Rendered
         $this->getVariables()
         	->add('attributes', $this->getAttributes())
         	->add('content', $this->getContent());
+
+        $this->toggleClass('hidden', $this->isHidden());
 
         return $this->traitRender();
     }
@@ -294,5 +346,42 @@ abstract class Rendered
     public function copy()
     {
         return unserialize(serialize($this));
+    }
+
+    /**
+     * @param string $element
+     * @return Group
+     */
+    public function find($element)
+    {
+        return Find::create($this, $element)->find();
+    }
+
+    /**
+     * @param bool $force
+     * @return $this
+     */
+    public function show($force = false)
+    {
+        $this->setHidden(false);
+
+        if($force)
+            $this->setDisplay(true);
+
+        return $this;
+    }
+
+    /**
+     * @param bool $force
+     * @return $this
+     */
+    public function hide($force = false)
+    {
+        $this->setHidden(true);
+
+        if($force)
+            $this->setDisplay(false);
+
+        return $this;
     }
 }
